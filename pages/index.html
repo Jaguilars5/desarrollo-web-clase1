@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Tienda</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/index.css">
+</head>
+<body>
+
+    <!-- NAV -->
+    <nav id="main-nav">
+        <div class="nav-inner">
+            <h1 class="nav-brand" onclick="toggleView('store')">Mi Tienda</h1>
+            <div class="nav-actions">
+                <button onclick="toggleView('admin')" class="btn-nav">Admin</button>
+                <button onclick="toggleCart()" class="btn-nav btn-cart">
+                    Carrito
+                    <span id="cart-count" class="cart-badge">0</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- STORE VIEW -->
+    <main id="store-view" class="view-container">
+        <div class="page-header">
+            <h2 class="page-title">Nuestros Productos</h2>
+            <p class="page-subtitle">Coleccion seleccionada</p>
+        </div>
+        <div id="product-grid" class="product-grid"></div>
+    </main>
+
+    <!-- ADMIN VIEW -->
+    <section id="admin-view" class="view-container hidden">
+        <div class="page-header">
+            <h2 class="page-title">Gestion de Productos</h2>
+            <p class="page-subtitle">Panel de administracion</p>
+        </div>
+
+        <div class="admin-form-card">
+            <h3 class="form-title">Agregar Nuevo Producto</h3>
+            <div class="admin-form-grid">
+                <input type="text" id="new-name" placeholder="Nombre del producto" class="form-input">
+                <input type="number" id="new-price" placeholder="Precio ($)" class="form-input" min="0.01" step="0.01">
+                <input type="text" id="new-image" placeholder="URL de la imagen" class="form-input">
+                <button onclick="createProduct()" class="btn-primary">Crear Producto</button>
+            </div>
+        </div>
+
+        <div class="admin-table-card">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Imagen</th>
+                        <th>Nombre</th>
+                        <th>Precio</th>
+                        <th class="text-center">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="admin-product-list"></tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- PRODUCT MODAL -->
+    <div id="product-modal" class="modal-overlay hidden">
+        <div class="modal-card">
+            <button onclick="closeModal()" class="modal-close">&times;</button>
+            <img id="modal-img" src="" alt="" class="modal-img">
+            <h3 id="modal-name" class="modal-product-name"></h3>
+            <p class="modal-unit-price">Precio unitario: $<span id="modal-unit-price-val"></span></p>
+            <div class="quantity-row">
+                <span class="qty-label">Cantidad</span>
+                <div class="qty-controls">
+                    <button onclick="updateModalQuantity(-1)" class="qty-btn">-</button>
+                    <span id="modal-quantity" class="qty-display">1</span>
+                    <button onclick="updateModalQuantity(1)" class="qty-btn">+</button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="modal-total">
+                    Total: <strong>$<span id="modal-total-price">0.00</span></strong>
+                </div>
+                <button onclick="confirmAddToCart()" class="btn-primary">Anadir al carrito</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CART SIDEBAR -->
+    <aside id="cart-sidebar" class="cart-sidebar">
+        <div class="cart-header">
+            <h2 class="cart-title">Tu Carrito</h2>
+            <button onclick="toggleCart()" class="cart-close">&times;</button>
+        </div>
+        <div id="cart-items" class="cart-items"></div>
+        <div class="cart-footer">
+            <div class="cart-subtotal">
+                <span>Subtotal</span>
+                <span>$<span id="cart-total-sum">0.00</span></span>
+            </div>
+            <button onclick="checkout()" class="btn-checkout">Proceder al Pago</button>
+        </div>
+    </aside>
+    <div id="cart-overlay" onclick="toggleCart()" class="cart-overlay hidden"></div>
+
+    <!-- PAYMENT MODAL -->
+    <div id="payment-modal" class="modal-overlay hidden">
+        <div class="modal-card payment-modal-card">
+            <button onclick="closePaymentModal()" class="modal-close">&times;</button>
+            <div class="payment-header">
+                <h3 class="payment-title">Pago Seguro</h3>
+                <p class="payment-subtitle">Complete los datos para finalizar su compra</p>
+            </div>
+
+            <div id="payment-summary" class="payment-summary"></div>
+
+            <div class="payment-section">
+                <label class="field-label">Datos de contacto</label>
+                <input type="text" id="pay-name" placeholder="Nombre completo" class="form-input">
+                <input type="email" id="pay-email" placeholder="Correo electronico" class="form-input form-input--mt">
+            </div>
+
+            <div class="payment-section">
+                <label class="field-label">Datos de tarjeta</label>
+                <input type="text" id="pay-card-number" placeholder="1234 5678 9012 3456" class="form-input" maxlength="19" oninput="formatCardNumber(this)">
+                <div class="card-row">
+                    <input type="text" id="pay-expiry" placeholder="MM/AA" class="form-input" maxlength="5" oninput="formatExpiry(this)">
+                    <input type="text" id="pay-cvv" placeholder="CVV" class="form-input" maxlength="3" inputmode="numeric">
+                </div>
+            </div>
+
+            <div id="pay-error" class="pay-error hidden"></div>
+
+            <button id="submit-payment" onclick="submitPayment()" class="btn-checkout btn-checkout--mt">
+                <span id="pay-btn-text">Pagar $<span id="payment-amount">0.00</span></span>
+                <span id="pay-btn-loading" class="hidden">Procesando...</span>
+            </button>
+
+            <p class="payment-secure-note">Simulacion de pago — ningun cargo real sera efectuado</p>
+        </div>
+    </div>
+
+    <!-- SUCCESS MODAL -->
+    <div id="success-modal" class="modal-overlay hidden">
+        <div class="modal-card success-card">
+            <div class="success-icon">&#10003;</div>
+            <h3 class="success-title">Pago Exitoso</h3>
+            <p class="success-message" id="success-message">Tu pedido ha sido confirmado.</p>
+            <button onclick="closeSuccessModal()" class="btn-primary btn-primary--mt">Continuar comprando</button>
+        </div>
+    </div>
+
+    <script src="../data/mock-data.js"></script>
+    <script src="../js/index.js"></script>
+</body>
+</html>
