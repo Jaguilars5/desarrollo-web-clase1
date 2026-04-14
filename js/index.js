@@ -8,6 +8,7 @@ let products = [...MOCK_PRODUCTS];
 let nextId = products.length + 1;
 let cart = [];
 let cartOpen = false;
+let storeSearchTerm = '';
 
 // Estado del modal de producto
 let modalProduct = null;
@@ -19,11 +20,21 @@ let modalQuantity = 1;
 
 function renderStore() {
     const grid = document.getElementById('product-grid');
+    const filteredProducts = products.filter(p =>
+        p.name.toLowerCase().includes(storeSearchTerm.toLowerCase())
+    );
+
     if (products.length === 0) {
         grid.innerHTML = '<p style="color:var(--text-muted);grid-column:1/-1;text-align:center;padding:48px 0;">No hay productos disponibles.</p>';
         return;
     }
-    grid.innerHTML = products.map(p => `
+
+    if (filteredProducts.length === 0) {
+        grid.innerHTML = '<p style="color:var(--text-muted);grid-column:1/-1;text-align:center;padding:48px 0;">No se encontraron productos para tu busqueda.</p>';
+        return;
+    }
+
+    grid.innerHTML = filteredProducts.map(p => `
         <div class="product-card" onclick="openProductModal(${p.id})">
             <img src="${p.image}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/400x200?text=Sin+imagen'">
             <div class="product-card-body">
@@ -418,6 +429,14 @@ document.addEventListener('DOMContentLoaded', () => {
     renderStore();
     renderAdmin();
     updateCartBadge();
+
+    const searchInput = document.getElementById('store-search');
+    if (searchInput) {
+        searchInput.addEventListener('input', e => {
+            storeSearchTerm = e.target.value.trim();
+            renderStore();
+        });
+    }
 
     // Cerrar modals con Escape
     document.addEventListener('keydown', e => {

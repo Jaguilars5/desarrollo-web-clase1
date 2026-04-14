@@ -140,6 +140,21 @@ body {
     text-transform: uppercase;
 }
 
+.store-search-wrap {
+    margin-top: 18px;
+    max-width: 420px;
+}
+
+.store-search-input {
+    background: var(--surface);
+}
+
+@media (max-width: 768px) {
+    .store-search-wrap {
+        max-width: 100%;
+    }
+}
+
 /* =============================================
    PRODUCT GRID
    ============================================= */
@@ -513,10 +528,12 @@ body {
    ============================================= */
 .cart-sidebar {
     position: fixed;
-    inset-y: 0;
+    top: 0;
+    bottom: 0;
     right: 0;
     width: 100%;
     max-width: 400px;
+    height: 100vh;
     background: var(--surface);
     box-shadow: var(--shadow-lg);
     z-index: 50;

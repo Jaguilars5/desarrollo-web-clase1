@@ -1,14 +1,18 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi Tienda</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=DM+Sans:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="../styles/index.css">
 </head>
+
 <body>
 
     <!-- NAV -->
@@ -30,6 +34,10 @@
         <div class="page-header">
             <h2 class="page-title">Nuestros Productos</h2>
             <p class="page-subtitle">Coleccion seleccionada</p>
+            <div class="store-search-wrap">
+                <input type="search" id="store-search" class="form-input store-search-input"
+                    placeholder="Buscar producto por nombre" aria-label="Buscar producto por nombre">
+            </div>
         </div>
         <div id="product-grid" class="product-grid"></div>
     </main>
@@ -126,10 +134,13 @@
 
             <div class="payment-section">
                 <label class="field-label">Datos de tarjeta</label>
-                <input type="text" id="pay-card-number" placeholder="1234 5678 9012 3456" class="form-input" maxlength="19" oninput="formatCardNumber(this)">
+                <input type="text" id="pay-card-number" placeholder="1234 5678 9012 3456" class="form-input"
+                    maxlength="19" oninput="formatCardNumber(this)">
                 <div class="card-row">
-                    <input type="text" id="pay-expiry" placeholder="MM/AA" class="form-input" maxlength="5" oninput="formatExpiry(this)">
-                    <input type="text" id="pay-cvv" placeholder="CVV" class="form-input" maxlength="3" inputmode="numeric">
+                    <input type="text" id="pay-expiry" placeholder="MM/AA" class="form-input" maxlength="5"
+                        oninput="formatExpiry(this)">
+                    <input type="text" id="pay-cvv" placeholder="CVV" class="form-input" maxlength="3"
+                        inputmode="numeric">
                 </div>
             </div>
 
@@ -157,4 +168,5 @@
     <script src="../data/mock-data.js"></script>
     <script src="../js/index.js"></script>
 </body>
+
 </html>
