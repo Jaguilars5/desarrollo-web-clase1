@@ -15,7 +15,6 @@
 
 <body>
 
-    <!-- NAV -->
     <nav id="main-nav">
         <div class="nav-inner">
             <h1 class="nav-brand" onclick="toggleView('store')">Mi Tienda</h1>
@@ -29,7 +28,6 @@
         </div>
     </nav>
 
-    <!-- STORE VIEW -->
     <main id="store-view" class="view-container">
         <div class="page-header">
             <h2 class="page-title">Nuestros Productos</h2>
@@ -42,7 +40,6 @@
         <div id="product-grid" class="product-grid"></div>
     </main>
 
-    <!-- ADMIN VIEW -->
     <section id="admin-view" class="view-container hidden">
         <div class="page-header">
             <h2 class="page-title">Gestion de Productos</h2>
@@ -74,7 +71,6 @@
         </div>
     </section>
 
-    <!-- PRODUCT MODAL -->
     <div id="product-modal" class="modal-overlay hidden">
         <div class="modal-card">
             <button onclick="closeModal()" class="modal-close">&times;</button>
@@ -98,7 +94,6 @@
         </div>
     </div>
 
-    <!-- CART SIDEBAR -->
     <aside id="cart-sidebar" class="cart-sidebar">
         <div class="cart-header">
             <h2 class="cart-title">Tu Carrito</h2>
@@ -115,7 +110,6 @@
     </aside>
     <div id="cart-overlay" onclick="toggleCart()" class="cart-overlay hidden"></div>
 
-    <!-- PAYMENT MODAL -->
     <div id="payment-modal" class="modal-overlay hidden">
         <div class="modal-card payment-modal-card">
             <button onclick="closePaymentModal()" class="modal-close">&times;</button>
@@ -155,7 +149,6 @@
         </div>
     </div>
 
-    <!-- SUCCESS MODAL -->
     <div id="success-modal" class="modal-overlay hidden">
         <div class="modal-card success-card">
             <div class="success-icon">&#10003;</div>
@@ -166,7 +159,7 @@
     </div>
 
     <script src="../data/mock-data.js"></script>
-    <script src="../js/index.js"></script>
+    <script type="module" src="../js/index.js"></script>
 </body>
 
 </html>
